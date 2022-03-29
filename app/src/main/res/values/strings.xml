@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">YentenMiner</string>
     <string-array name="algorithms">
-        <item>yescrypt</item>
-        <item>yespower</item>
+        <item>yescryptr16</item>
+        <item>yespowerr16</item>
     </string-array>
 </resources>
