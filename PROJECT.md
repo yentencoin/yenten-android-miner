@@ -7,7 +7,7 @@ mining engine. The app configures a pool connection, wallet or pool login,
 password, CPU thread count, and mining algorithm. It also provides a local
 benchmark mode and displays miner output in the app.
 
-The current application version is **1.1.0** (`versionCode` **2**). The Android
+The current application version is **1.2.0** (`versionCode` **3**). The Android
 application supports Android 5.0 (API 21) and later, targets API 34, and builds
 native libraries for `arm64-v8a`, `armeabi-v7a`, `x86`, and `x86_64`.
 
@@ -23,6 +23,19 @@ native libraries for `arm64-v8a`, `armeabi-v7a`, `x86`, and `x86_64`.
 4. The JNI bridge calls the cpuminer engine. Native log output is sent back to
    Java through a `Handler` and shown in the output panel.
 
+Mining runs inside `MiningService`, a foreground service with a persistent
+notification and a stop action. The service acquires a partial CPU wake lock
+for the active mining session and releases it when mining stops. Log output is
+kept in a bounded in-memory buffer and can be scrolled independently from the
+rest of the screen.
+
+The device panel reads the processor model, CPU core count, and any readable CPU
+capacity/frequency topology data. The displayed efficiency/performance groups
+are inferred from Android's per-core capacity or maximum-frequency files. CPU
+temperature is read from CPU/SoC thermal zones under `/sys/class/thermal`; many
+devices restrict access to those files, in which case the app displays that
+temperature is unavailable.
+
 The algorithm selector offers `yescryptr16` and `yespowerr16`; the latter is
 selected by default. Pool presets are Yenten Pool at
 `stratum+tcp://yenten-pool.info:63368` and CPU Pool at
@@ -32,6 +45,10 @@ The UI uses Material Components with dark, light, and Matrix appearance modes.
 The app language can be set to English, Russian, or Simplified Chinese. The
 language selection uses AndroidX AppCompat application locales and is also
 listed in Android's per-app language settings on supported Android versions.
+
+The mining service declares Android's `specialUse` foreground-service type for
+the user-started CPU-mining task. Android 13 and later can require notification
+permission before the ongoing notification appears in the notification drawer.
 
 ## Project layout
 

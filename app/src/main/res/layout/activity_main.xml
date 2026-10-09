@@ -84,6 +84,71 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="18dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/device_info"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.1" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/cpu_model_label"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/textViewCpuModel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/device_info_unavailable"
+                    android:textSize="15sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/cpu_cores_label"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/textViewCpuCores"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/device_info_unavailable"
+                    android:textSize="15sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/cpu_temperature_label"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/textViewCpuTemperature"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/device_info_unavailable"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="18dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -264,16 +329,22 @@
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="18dp"
             app:cardElevation="0dp">
-            <TextView
-                android:id="@+id/textViewLog"
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/logScrollView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fontFamily="monospace"
-                android:gravity="bottom"
-                android:padding="16dp"
                 android:scrollbars="vertical"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textSize="12sp" />
+                android:fillViewport="false"
+                android:clipToPadding="false"
+                android:padding="16dp">
+                <TextView
+                    android:id="@+id/textViewLog"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="monospace"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textSize="12sp" />
+            </androidx.core.widget.NestedScrollView>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </ScrollView>
