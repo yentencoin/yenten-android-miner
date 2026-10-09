@@ -3,6 +3,8 @@
 An Android CPU miner for Yenten, built around a Java UI and a native C/C++
 cpuminer engine. Current app version: **1.2.0** (`versionCode` **3**).
 
+![Yenten Miner app screenshot](img/yenten-miner-current.jpg)
+
 ## Features
 
 - Mines with `yespowerr16` (default) or `yescryptr16`.
