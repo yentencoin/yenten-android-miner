@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Yenten 挖矿器</string>
+    <string name="screen_eyebrow">YENTEN 挖矿器</string>
+    <string name="screen_title">挖矿面板</string>
+    <string name="status_ready">准备挖矿</string>
+    <string name="status_mining">正在挖矿</string>
+    <string name="start_mining">开始挖矿</string>
+    <string name="stop_mining">停止挖矿</string>
+    <string name="pool_wallet">矿池和钱包</string>
+    <string name="pool_label">矿池</string>
+    <string name="pool_address">矿池地址</string>
+    <string name="pool_content_description">挖矿矿池</string>
+    <string name="wallet_hint">钱包地址或矿池登录名</string>
+    <string name="password_hint">密码（通常为 x）</string>
+    <string name="miner_settings">矿机设置</string>
+    <string name="threads_hint">CPU 线程数（留空为自动）</string>
+    <string name="algorithm_label">算法</string>
+    <string name="benchmark_only">仅运行性能测试</string>
+    <string name="appearance">外观</string>
+    <string name="theme_content_description">应用主题</string>
+    <string name="language_label">语言</string>
+    <string name="language_content_description">应用语言</string>
+    <string name="miner_output">矿机输出</string>
+    <string name="invalid_threads">请输入正数，或留空以自动设置</string>
+    <string name="required">此项为必填项</string>
+    <string name="wallet_required">请输入钱包地址或矿池登录名</string>
+    <string-array name="pools">
+        <item>Yenten Pool — yenten-pool.info:63368</item>
+        <item>CPU Pool — cpu-pool.com:63368</item>
+        <item>自定义矿池</item>
+    </string-array>
+    <string-array name="themes">
+        <item>深色</item>
+        <item>浅色</item>
+        <item>矩阵</item>
+    </string-array>
+    <string-array name="languages">
+        <item>English</item>
+        <item>Русский</item>
+        <item>中文</item>
+    </string-array>
+</resources>

@@ -1,11 +1,53 @@
 <resources>
-
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
+        <item name="colorSecondary">@color/colorAccent</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
+        <item name="materialButtonStyle">@style/Widget.MaterialComponents.Button</item>
+        <item name="android:fontFamily">sans</item>
     </style>
 
+    <style name="AppTheme.Dark" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">#36D6B0</item>
+        <item name="colorPrimaryVariant">#087E69</item>
+        <item name="colorSecondary">#70E7C8</item>
+        <item name="colorAccent">#70E7C8</item>
+        <item name="colorSurface">#171D25</item>
+        <item name="android:colorBackground">#10151B</item>
+        <item name="android:statusBarColor">#10151B</item>
+        <item name="android:navigationBarColor">#10151B</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
+        <item name="materialButtonStyle">@style/Widget.MaterialComponents.Button</item>
+    </style>
+
+    <style name="AppTheme.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">#087E69</item>
+        <item name="colorPrimaryVariant">#075C4E</item>
+        <item name="colorSecondary">#16A085</item>
+        <item name="colorAccent">#16A085</item>
+        <item name="colorSurface">#FFFFFF</item>
+        <item name="android:colorBackground">#F3F6F8</item>
+        <item name="android:statusBarColor">#E7ECEF</item>
+        <item name="android:navigationBarColor">#F3F6F8</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
+        <item name="materialButtonStyle">@style/Widget.MaterialComponents.Button</item>
+    </style>
+
+    <style name="AppTheme.Matrix" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">#00FF41</item>
+        <item name="colorPrimaryVariant">#008F25</item>
+        <item name="colorSecondary">#00D936</item>
+        <item name="colorAccent">#00FF41</item>
+        <item name="colorSurface">#031108</item>
+        <item name="android:colorBackground">#000800</item>
+        <item name="android:statusBarColor">#000800</item>
+        <item name="android:navigationBarColor">#000800</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
+        <item name="materialButtonStyle">@style/Widget.MaterialComponents.Button</item>
+    </style>
 </resources>

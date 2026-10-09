@@ -4,15 +4,16 @@
 Android Yenten Miner for yespowerr16 algo. Android studio cpuminer
 
 
-## Environment
+## Build environment
 
-tested on Android Studio Bumblebee 2021.1.1
+The project uses Android Gradle Plugin 8.6.1 and Gradle 8.7. Build with JDK 17,
+Android SDK platform 34, Android NDK 27.1.12297006, and ARM-native CMake 3.28.3.
+On Linux ARM, the SDK must include ARM64 host binaries for both CMake and NDK;
+the stock Google packages are x86_64-only.
 
-NDK - 20.0.5594570
-
-Android Gradle Plugin Version = 3.6.1
-
-Gradle Version = 5.6.4
+On ARM Linux, use the workspace's `android-arm-build` skill so Gradle uses the
+ARM-compatible `aapt2` binary. The debug APK is written to
+`app/build/outputs/apk/standard/debug/app-standard-debug.apk`.
 
 
 ![screen](img/ytn_and_miner_screen.jpg)

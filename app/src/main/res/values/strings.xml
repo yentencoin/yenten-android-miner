@@ -1,7 +1,46 @@
 <resources>
-    <string name="app_name">YentenMiner</string>
+    <string name="app_name">Yenten Miner</string>
+    <string name="screen_eyebrow">YENTEN MINER</string>
+    <string name="screen_title">Mining dashboard</string>
+    <string name="status_ready">Ready to mine</string>
+    <string name="status_mining">Mining is running</string>
+    <string name="start_mining">Start mining</string>
+    <string name="stop_mining">Stop mining</string>
+    <string name="pool_wallet">POOL &amp; WALLET</string>
+    <string name="pool_label">Pool</string>
+    <string name="pool_address">Pool address</string>
+    <string name="pool_content_description">Mining pool</string>
+    <string name="wallet_hint">Wallet address or pool login</string>
+    <string name="password_hint">Password (usually x)</string>
+    <string name="miner_settings">MINER SETTINGS</string>
+    <string name="threads_hint">CPU threads (blank = auto)</string>
+    <string name="algorithm_label">Algorithm</string>
+    <string name="benchmark_only">Run benchmark only</string>
+    <string name="appearance">APPEARANCE</string>
+    <string name="theme_content_description">App theme</string>
+    <string name="language_label">Language</string>
+    <string name="language_content_description">App language</string>
+    <string name="miner_output">MINER OUTPUT</string>
+    <string name="invalid_threads">Enter a positive number or leave blank for automatic</string>
+    <string name="required">This field is required</string>
+    <string name="wallet_required">Enter your wallet address or pool login</string>
     <string-array name="algorithms">
         <item>yescryptr16</item>
         <item>yespowerr16</item>
+    </string-array>
+    <string-array name="pools">
+        <item>Yenten Pool — yenten-pool.info:63368</item>
+        <item>CPU Pool — cpu-pool.com:63368</item>
+        <item>Custom pool</item>
+    </string-array>
+    <string-array name="themes">
+        <item>Dark</item>
+        <item>Light</item>
+        <item>Matrix</item>
+    </string-array>
+    <string-array name="languages">
+        <item>English</item>
+        <item>Русский</item>
+        <item>中文</item>
     </string-array>
 </resources>

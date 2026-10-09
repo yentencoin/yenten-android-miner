@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Майнер Yenten</string>
+    <string name="screen_eyebrow">МАЙНЕР YENTEN</string>
+    <string name="screen_title">Панель майнинга</string>
+    <string name="status_ready">Готов к майнингу</string>
+    <string name="status_mining">Майнинг запущен</string>
+    <string name="start_mining">Запустить майнинг</string>
+    <string name="stop_mining">Остановить</string>
+    <string name="pool_wallet">ПУЛ И КОШЕЛЁК</string>
+    <string name="pool_label">Пул</string>
+    <string name="pool_address">Адрес пула</string>
+    <string name="pool_content_description">Пул для майнинга</string>
+    <string name="wallet_hint">Адрес кошелька или логин пула</string>
+    <string name="password_hint">Пароль (обычно x)</string>
+    <string name="miner_settings">НАСТРОЙКИ МАЙНЕРА</string>
+    <string name="threads_hint">Потоки CPU (пусто — автоматически)</string>
+    <string name="algorithm_label">Алгоритм</string>
+    <string name="benchmark_only">Только тест производительности</string>
+    <string name="appearance">ОФОРМЛЕНИЕ</string>
+    <string name="theme_content_description">Тема приложения</string>
+    <string name="language_label">Язык</string>
+    <string name="language_content_description">Язык приложения</string>
+    <string name="miner_output">ВЫВОД МАЙНЕРА</string>
+    <string name="invalid_threads">Введите положительное число или оставьте поле пустым для автонастройки</string>
+    <string name="required">Обязательное поле</string>
+    <string name="wallet_required">Укажите адрес кошелька или логин пула</string>
+    <string-array name="pools">
+        <item>Yenten Pool — yenten-pool.info:63368</item>
+        <item>CPU Pool — cpu-pool.com:63368</item>
+        <item>Свой пул</item>
+    </string-array>
+    <string-array name="themes">
+        <item>Тёмная</item>
+        <item>Светлая</item>
+        <item>Матрица</item>
+    </string-array>
+    <string-array name="languages">
+        <item>English</item>
+        <item>Русский</item>
+        <item>中文</item>
+    </string-array>
+</resources>
