@@ -46,6 +46,17 @@ The app language can be set to English, Russian, or Simplified Chinese. The
 language selection uses AndroidX AppCompat application locales and is also
 listed in Android's per-app language settings on supported Android versions.
 
+The experimental wallet card generates a compressed secp256k1 key locally and
+encodes a legacy Yenten mainnet address and WIF private key. Yenten Core's mainnet
+Base58 prefixes are used (address `78`, private key `123`). The miner address
+field is populated with the generated address. The WIF is hidden until requested
+and is exported only when the user chooses a destination through Android's
+document picker. The exported text file is unencrypted; anyone with it can spend
+funds controlled by the key. The file includes the Core console command for
+`importprivkey` and a note to wait for the wallet rescan. The app does not retain
+the generated private key between activity sessions, so the backup must be saved
+before leaving the screen.
+
 The mining service declares Android's `specialUse` foreground-service type for
 the user-started CPU-mining task. Android 13 and later can require notification
 permission before the ongoing notification appears in the notification drawer.
@@ -71,6 +82,7 @@ permission before the ongoing notification appears in the notification drawer.
 - AndroidX AppCompat 1.7.0
 - Material Components 1.12.0
 - AndroidX ConstraintLayout 2.1.4
+- Spongy Castle 1.58.0.0 for secp256k1 and RIPEMD-160 key/address encoding
 
 ### Native library
 
