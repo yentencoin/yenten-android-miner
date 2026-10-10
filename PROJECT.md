@@ -49,13 +49,16 @@ listed in Android's per-app language settings on supported Android versions.
 The experimental wallet card generates a compressed secp256k1 key locally and
 encodes a legacy Yenten mainnet address and WIF private key. Yenten Core's mainnet
 Base58 prefixes are used (address `78`, private key `123`). The miner address
-field is populated with the generated address. The WIF is hidden until requested
-and is exported only when the user chooses a destination through Android's
-document picker. The exported text file is unencrypted; anyone with it can spend
-funds controlled by the key. The file includes the Core console command for
-`importprivkey` and a note to wait for the wallet rescan. The app does not retain
-the generated private key between activity sessions, so the backup must be saved
-before leaving the screen.
+field is populated with the generated address. The address and WIF are stored in
+app-private preferences encrypted with AES-GCM; the random data-encryption key is
+wrapped by an RSA key held in Android Keystore. The encrypted preference file is
+excluded from cloud and device-transfer backups because the device-bound Keystore
+key cannot be restored on another installation. The WIF is hidden until
+requested and is exported only when the user chooses a destination through
+Android's document picker. The exported text file is unencrypted; anyone with it
+can spend funds controlled by the key. The file includes the Core console command
+for `importprivkey` and a note to wait for the wallet rescan. Users need an
+exported backup before uninstalling the app or moving to another device.
 
 The mining service declares Android's `specialUse` foreground-service type for
 the user-started CPU-mining task. Android 13 and later can require notification

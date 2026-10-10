@@ -15,6 +15,7 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewGeneratedAddress, textViewGeneratedWif;
     private LinearLayout walletKeyOutput;
     private YentenWalletKey generatedWallet;
+    private YentenWalletStorage walletStorage;
     private boolean wifRevealed;
     private View statusDot;
     private NestedScrollView logScrollView;
@@ -111,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
         textViewGeneratedAddress = findViewById(R.id.textViewGeneratedAddress);
         textViewGeneratedWif = findViewById(R.id.textViewGeneratedWif);
         walletKeyOutput = findViewById(R.id.walletKeyOutput);
+        walletStorage = new YentenWalletStorage(this);
 
         setupSpinner(spinnerAlgorithm, R.array.algorithms);
         setupSpinner(spinnerPool, R.array.pools);
@@ -168,12 +171,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         buttonRevealWif.setOnClickListener(view -> {
+            if (generatedWallet == null) return;
             wifRevealed = !wifRevealed;
             textViewGeneratedWif.setText(wifRevealed ? generatedWallet.wif : getString(R.string.wif_hidden));
             textViewGeneratedWif.setVisibility(View.VISIBLE);
             buttonRevealWif.setText(wifRevealed ? R.string.hide_wif : R.string.reveal_wif);
+            if (wifRevealed) getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+            else getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
         });
         buttonSaveWif.setOnClickListener(view -> confirmSaveWallet());
+
+        restoreWallet();
 
         buttonDrive.setOnClickListener(view -> toggleMining());
         changeState(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("mining_running", false));
@@ -203,6 +211,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override protected void onStop() {
         mainHandler.removeCallbacks(temperatureRefresh);
+        if (wifRevealed) {
+            wifRevealed = false;
+            textViewGeneratedWif.setText(getString(R.string.wif_hidden));
+            buttonRevealWif.setText(R.string.reveal_wif);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        }
         if (receiverRegistered) {
             unregisterReceiver(miningReceiver);
             receiverRegistered = false;
@@ -219,20 +233,36 @@ public class MainActivity extends AppCompatActivity {
 
     private void generateWallet() {
         try {
-            generatedWallet = YentenWalletKey.generate(new java.security.SecureRandom());
-            wifRevealed = false;
-            textViewGeneratedAddress.setText(generatedWallet.address);
-            textViewGeneratedWif.setText(getString(R.string.wif_hidden));
-            textViewGeneratedWif.setVisibility(View.VISIBLE);
-            buttonRevealWif.setText(R.string.reveal_wif);
-            walletKeyOutput.setVisibility(View.VISIBLE);
-            editTextUser.setText(generatedWallet.address);
-            storeSetting();
+            YentenWalletKey candidate = YentenWalletKey.generate(new java.security.SecureRandom());
+            walletStorage.save(candidate);
+            showWallet(candidate);
             Toast.makeText(this, R.string.wallet_generated, Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Log.e(TAG, "Unable to generate Yenten wallet", e);
             Toast.makeText(this, R.string.wallet_generation_failed, Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void restoreWallet() {
+        try {
+            YentenWalletKey wallet = walletStorage.load();
+            if (wallet != null) showWallet(wallet);
+        } catch (Exception e) {
+            Log.e(TAG, "Unable to unlock saved Yenten wallet", e);
+            Toast.makeText(this, R.string.wallet_storage_unavailable, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void showWallet(YentenWalletKey wallet) {
+        generatedWallet = wallet;
+        wifRevealed = false;
+        textViewGeneratedAddress.setText(wallet.address);
+        textViewGeneratedWif.setText(getString(R.string.wif_hidden));
+        textViewGeneratedWif.setVisibility(View.VISIBLE);
+        buttonRevealWif.setText(R.string.reveal_wif);
+        walletKeyOutput.setVisibility(View.VISIBLE);
+        editTextUser.setText(wallet.address);
+        storeSetting();
     }
 
     private void confirmSaveWallet() {
@@ -255,7 +285,14 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode != REQUEST_SAVE_WALLET || resultCode != RESULT_OK || data == null) return;
         Uri uri = data.getData();
-        if (uri == null || generatedWallet == null) return;
+        if (generatedWallet == null) {
+            try { generatedWallet = walletStorage.load(); }
+            catch (Exception e) { Log.e(TAG, "Unable to load wallet for export", e); }
+        }
+        if (uri == null || generatedWallet == null) {
+            Toast.makeText(this, R.string.wallet_storage_unavailable, Toast.LENGTH_LONG).show();
+            return;
+        }
         String contents = getString(R.string.wallet_backup_contents, generatedWallet.address, generatedWallet.wif);
         try (OutputStream output = getContentResolver().openOutputStream(uri)) {
             if (output == null) throw new java.io.IOException("Unable to open selected file");

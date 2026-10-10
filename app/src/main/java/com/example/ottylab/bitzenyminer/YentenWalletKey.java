@@ -19,7 +19,7 @@ final class YentenWalletKey {
     final String address;
     final String wif;
 
-    private YentenWalletKey(String address, String wif) {
+    YentenWalletKey(String address, String wif) {
         this.address = address;
         this.wif = wif;
     }
