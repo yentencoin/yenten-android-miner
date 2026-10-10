@@ -7,7 +7,7 @@ mining engine. The app configures a pool connection, wallet or pool login,
 password, CPU thread count, and mining algorithm. It also provides a local
 benchmark mode and displays miner output in the app.
 
-The current application version is **1.2.0** (`versionCode` **3**). The Android
+The current application version is **1.3.0** (`versionCode` **4**). The Android
 application supports Android 5.0 (API 21) and later, targets API 34, and builds
 native libraries for `arm64-v8a`, `armeabi-v7a`, `x86`, and `x86_64`.
 

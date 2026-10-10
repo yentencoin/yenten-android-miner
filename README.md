@@ -1,7 +1,7 @@
 # Yenten Android Miner
 
 An Android CPU miner for Yenten, built around a Java UI and a native C/C++
-cpuminer engine. Current app version: **1.2.0** (`versionCode` **3**).
+cpuminer engine. Current app version: **1.3.0** (`versionCode` **4**).
 
 ![Yenten Miner app screenshot](img/yenten-miner-current.jpg)
 
@@ -18,6 +18,9 @@ cpuminer engine. Current app version: **1.2.0** (`versionCode` **3**).
   Chinese UI; and a scrollable miner log.
 - Includes a benchmark mode and automatic thread selection when the thread
   count is left blank.
+- **Test functionality:** creates and stores a Yenten address and encrypted WIF,
+  exports a backup, opens the Yenten web wallet, and checks the public address
+  balance through the Yenten API.
 
 Temperature and core-cluster information depend on files exposed by the device's
 Android kernel. If those readings are restricted or absent, the app reports the
