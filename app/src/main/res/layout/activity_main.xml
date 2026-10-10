@@ -76,6 +76,77 @@
                             app:cornerRadius="14dp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="0dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="18dp">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pool_wallet"
+                            android:textColor="?attr/colorPrimary"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            android:letterSpacing="0.1" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/pool_label"
+                            android:textStyle="bold" />
+                        <Spinner
+                            android:id="@+id/spinnerPool"
+                            android:layout_width="match_parent"
+                            android:layout_height="52dp"
+                            android:contentDescription="@string/pool_content_description" />
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:hint="@string/pool_address"
+                            app:boxBackgroundMode="outline">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/editTextServer"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textUri"
+                                android:singleLine="true" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:hint="@string/wallet_hint"
+                            app:boxBackgroundMode="outline">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/editTextUser"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="text"
+                                android:singleLine="true" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:hint="@string/password_hint"
+                            app:boxBackgroundMode="outline">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/editTextPassword"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPassword"
+                                android:singleLine="true" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -319,77 +390,6 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/pool_wallet"
-                            android:textColor="?attr/colorPrimary"
-                            android:textSize="12sp"
-                            android:textStyle="bold"
-                            android:letterSpacing="0.1" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/pool_label"
-                            android:textStyle="bold" />
-                        <Spinner
-                            android:id="@+id/spinnerPool"
-                            android:layout_width="match_parent"
-                            android:layout_height="52dp"
-                            android:contentDescription="@string/pool_content_description" />
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:hint="@string/pool_address"
-                            app:boxBackgroundMode="outline">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/editTextServer"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="textUri"
-                                android:singleLine="true" />
-                        </com.google.android.material.textfield.TextInputLayout>
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:hint="@string/wallet_hint"
-                            app:boxBackgroundMode="outline">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/editTextUser"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="text"
-                                android:singleLine="true" />
-                        </com.google.android.material.textfield.TextInputLayout>
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:hint="@string/password_hint"
-                            app:boxBackgroundMode="outline">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/editTextPassword"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="textPassword"
-                                android:singleLine="true" />
-                        </com.google.android.material.textfield.TextInputLayout>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
-                    app:cardCornerRadius="18dp"
-                    app:cardElevation="0dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="18dp">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
                             android:text="@string/miner_settings"
                             android:textColor="?attr/colorPrimary"
                             android:textSize="12sp"
@@ -479,7 +479,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonNavMining"
             android:layout_width="0dp"
-            android:layout_height="52dp"
+            android:layout_height="64dp"
             android:layout_weight="1"
             android:text="@string/navigation_mining"
             android:textAllCaps="false"
@@ -488,11 +488,16 @@
             android:insetBottom="0dp"
             app:cornerRadius="16dp"
             app:backgroundTint="?attr/colorSurface"
-            style="@style/Widget.MaterialComponents.Button.TextButton" />
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            app:icon="@drawable/ic_nav_mining"
+            app:iconGravity="textTop"
+            app:iconSize="20dp"
+            app:iconPadding="2dp"
+            app:iconTint="?attr/colorPrimary" />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonNavWallet"
             android:layout_width="0dp"
-            android:layout_height="52dp"
+            android:layout_height="64dp"
             android:layout_weight="1"
             android:text="@string/navigation_wallet"
             android:textAllCaps="false"
@@ -501,11 +506,16 @@
             android:insetBottom="0dp"
             app:cornerRadius="16dp"
             app:backgroundTint="?attr/colorSurface"
-            style="@style/Widget.MaterialComponents.Button.TextButton" />
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            app:icon="@drawable/ic_nav_wallet"
+            app:iconGravity="textTop"
+            app:iconSize="20dp"
+            app:iconPadding="2dp"
+            app:iconTint="?attr/colorPrimary" />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonNavSettings"
             android:layout_width="0dp"
-            android:layout_height="52dp"
+            android:layout_height="64dp"
             android:layout_weight="1"
             android:text="@string/navigation_settings"
             android:textAllCaps="false"
@@ -514,6 +524,11 @@
             android:insetBottom="0dp"
             app:cornerRadius="16dp"
             app:backgroundTint="?attr/colorSurface"
-            style="@style/Widget.MaterialComponents.Button.TextButton" />
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            app:icon="@drawable/ic_nav_settings"
+            app:iconGravity="textTop"
+            app:iconSize="20dp"
+            app:iconPadding="2dp"
+            app:iconTint="?attr/colorPrimary" />
     </LinearLayout>
 </LinearLayout>
