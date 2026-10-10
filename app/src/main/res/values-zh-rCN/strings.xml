@@ -18,6 +18,16 @@
     <string name="wallet_generated">地址已创建，私钥已加密保存在此设备上。</string>
     <string name="wallet_generation_failed">无法在此设备上创建钱包</string>
     <string name="wallet_storage_unavailable">无法解锁已保存的钱包。如有备份，请从备份恢复。</string>
+    <string name="web_wallet_instructions">导入此密钥：显示并复制 WIF，打开 Yenten 网页钱包，选择导入私钥，然后粘贴 WIF。不要在不可信的网站输入 WIF。</string>
+    <string name="open_web_wallet">打开 Yenten 网页钱包</string>
+    <string name="web_wallet_warning_title">私钥安全警告</string>
+    <string name="web_wallet_warning">将 WIF 粘贴到网站会让该网站获得此密钥所控制资金的支出权限。请仅在信任此网站时继续。</string>
+    <string name="check_wallet_balance">查询余额</string>
+    <string name="balance_api_privacy">仅将公开地址发送到 api.yentencoin.info；不会发送 WIF。</string>
+    <string name="balance_not_checked">尚未查询余额</string>
+    <string name="balance_loading">正在查询余额…</string>
+    <string name="balance_unavailable">暂时无法获取余额</string>
+    <string name="balance_result">余额：%1$s YTN · 累计收到：%2$s YTN</string>
     <string name="replace_wallet_title">生成另一个地址？</string>
     <string name="replace_wallet_warning">当前生成的私钥将被丢弃。如需保留，请先保存备份。</string>
     <string name="save_wif_warning">备份包含未加密的私钥。获得此文件的人可以花费发送到该地址的资金。请妥善保管，切勿分享。</string>

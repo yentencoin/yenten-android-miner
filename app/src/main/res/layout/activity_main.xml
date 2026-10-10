@@ -87,6 +87,29 @@
                         android:textIsSelectable="true"
                         android:fontFamily="monospace" />
 
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buttonCheckBalance"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/check_wallet_balance" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/balance_api_privacy"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/textViewWalletBalance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/balance_not_checked"
+                        android:textSize="14sp" />
+
                     <TextView
                         android:id="@+id/textViewGeneratedWif"
                         android:layout_width="match_parent"
@@ -110,6 +133,21 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="@string/save_wif" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="@string/web_wallet_instructions"
+                        android:textSize="14sp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buttonOpenWebWallet"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/open_web_wallet" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

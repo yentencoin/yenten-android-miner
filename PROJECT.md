@@ -60,6 +60,13 @@ can spend funds controlled by the key. The file includes the Core console comman
 for `importprivkey` and a note to wait for the wallet rescan. Users need an
 exported backup before uninstalling the app or moving to another device.
 
+The wallet card also explains how to reveal and paste WIF into the Yenten web
+wallet. Before opening it, the app warns that entering WIF grants the website
+spending access to the key. Address balance checks call
+`https://api.yentencoin.info/balance/{address}` on a background thread. The API
+receives only the public address, and its integer atomic-unit amounts are shown
+as YTN with eight decimal places; the WIF is never sent to this endpoint.
+
 The mining service declares Android's `specialUse` foreground-service type for
 the user-started CPU-mining task. Android 13 and later can require notification
 permission before the ongoing notification appears in the notification drawer.

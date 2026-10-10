@@ -18,6 +18,16 @@
     <string name="wallet_generated">Адрес создан и сохранён на устройстве в зашифрованном виде.</string>
     <string name="wallet_generation_failed">Не удалось создать кошелёк на этом устройстве</string>
     <string name="wallet_storage_unavailable">Не удалось расшифровать сохранённый кошелёк. Если у вас есть резервная копия, восстановите его из неё.</string>
+    <string name="web_wallet_instructions">Чтобы импортировать ключ, покажите и скопируйте WIF, откройте веб-кошелёк Yenten, выберите импорт приватного ключа и вставьте WIF. Не вводите WIF на ненадёжных сайтах.</string>
+    <string name="open_web_wallet">Открыть веб-кошелёк Yenten</string>
+    <string name="web_wallet_warning_title">Предупреждение о приватном ключе</string>
+    <string name="web_wallet_warning">Если вставить WIF на сайт, он получит доступ к средствам этого ключа. Продолжайте, только если доверяете именно этому сайту.</string>
+    <string name="check_wallet_balance">Проверить баланс</string>
+    <string name="balance_api_privacy">В api.yentencoin.info отправляется только публичный адрес; WIF не передаётся.</string>
+    <string name="balance_not_checked">Баланс ещё не проверялся</string>
+    <string name="balance_loading">Проверяем баланс…</string>
+    <string name="balance_unavailable">Баланс временно недоступен</string>
+    <string name="balance_result">Баланс: %1$s YTN · получено всего: %2$s YTN</string>
     <string name="replace_wallet_title">Создать ещё один адрес?</string>
     <string name="replace_wallet_warning">Текущий приватный ключ будет удалён. Сначала сохраните его, если он вам нужен.</string>
     <string name="save_wif_warning">Резервная копия содержит незашифрованный приватный ключ. Любой, кто получит файл, сможет потратить средства с этого адреса. Храните его надёжно и никому не передавайте.</string>

@@ -34,6 +34,8 @@ import androidx.core.widget.NestedScrollView;
 
 import java.util.Locale;
 import java.io.OutputStream;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -63,10 +65,12 @@ public class MainActivity extends AppCompatActivity {
     private Spinner spinnerAlgorithm, spinnerPool, spinnerTheme, spinnerLanguage;
     private TextView textViewLog, textViewStatus, textViewCpuModel, textViewCpuCores, textViewCpuTemperature;
     private Button buttonGenerateWallet, buttonRevealWif, buttonSaveWif;
-    private TextView textViewGeneratedAddress, textViewGeneratedWif;
+    private Button buttonCheckBalance, buttonOpenWebWallet;
+    private TextView textViewGeneratedAddress, textViewGeneratedWif, textViewWalletBalance;
     private LinearLayout walletKeyOutput;
     private YentenWalletKey generatedWallet;
     private YentenWalletStorage walletStorage;
+    private final ExecutorService balanceExecutor = Executors.newSingleThreadExecutor();
     private boolean wifRevealed;
     private View statusDot;
     private NestedScrollView logScrollView;
@@ -110,8 +114,11 @@ public class MainActivity extends AppCompatActivity {
         buttonGenerateWallet = findViewById(R.id.buttonGenerateWallet);
         buttonRevealWif = findViewById(R.id.buttonRevealWif);
         buttonSaveWif = findViewById(R.id.buttonSaveWif);
+        buttonCheckBalance = findViewById(R.id.buttonCheckBalance);
+        buttonOpenWebWallet = findViewById(R.id.buttonOpenWebWallet);
         textViewGeneratedAddress = findViewById(R.id.textViewGeneratedAddress);
         textViewGeneratedWif = findViewById(R.id.textViewGeneratedWif);
+        textViewWalletBalance = findViewById(R.id.textViewWalletBalance);
         walletKeyOutput = findViewById(R.id.walletKeyOutput);
         walletStorage = new YentenWalletStorage(this);
 
@@ -180,6 +187,8 @@ public class MainActivity extends AppCompatActivity {
             else getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
         });
         buttonSaveWif.setOnClickListener(view -> confirmSaveWallet());
+        buttonCheckBalance.setOnClickListener(view -> checkWalletBalance());
+        buttonOpenWebWallet.setOnClickListener(view -> confirmOpenWebWallet());
 
         restoreWallet();
 
@@ -279,6 +288,49 @@ public class MainActivity extends AppCompatActivity {
                     startActivityForResult(intent, REQUEST_SAVE_WALLET);
                 })
                 .show();
+    }
+
+    private void checkWalletBalance() {
+        if (generatedWallet == null) return;
+        String address = generatedWallet.address;
+        buttonCheckBalance.setEnabled(false);
+        textViewWalletBalance.setText(R.string.balance_loading);
+        balanceExecutor.execute(() -> {
+            try {
+                YentenBalanceClient.Balance balance = YentenBalanceClient.fetch(address);
+                runOnUiThread(() -> {
+                    if (isFinishing() || isDestroyed()) return;
+                    textViewWalletBalance.setText(getString(R.string.balance_result,
+                            balance.balance, balance.received));
+                    buttonCheckBalance.setEnabled(true);
+                });
+            } catch (Exception e) {
+                Log.w(TAG, "Unable to fetch Yenten address balance", e);
+                runOnUiThread(() -> {
+                    if (isFinishing() || isDestroyed()) return;
+                    textViewWalletBalance.setText(R.string.balance_unavailable);
+                    buttonCheckBalance.setEnabled(true);
+                });
+            }
+        });
+    }
+
+    private void confirmOpenWebWallet() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.web_wallet_warning_title)
+                .setMessage(R.string.web_wallet_warning)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(R.string.open_web_wallet, (dialog, which) -> {
+                    Intent intent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://wallet.yentencoin.info/"));
+                    startActivity(intent);
+                })
+                .show();
+    }
+
+    @Override protected void onDestroy() {
+        balanceExecutor.shutdownNow();
+        super.onDestroy();
     }
 
     @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
