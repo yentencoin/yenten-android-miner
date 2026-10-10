@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int THEME_MATRIX = 2;
     private static final String DEFAULT_POOL = "stratum+tcp://yenten-pool.info:63368";
     private static final String CPU_POOL = "stratum+tcp://cpu-pool.com:63368";
+    private static final String RPLANT_EU_POOL = "stratum+tcp://eu.rplant.xyz:3382";
 
     private final BlockingQueue<String> logs = new LinkedBlockingQueue<>(LOG_LINES);
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
@@ -61,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText editTextServer, editTextUser, editTextPassword, editTextNThreads;
     private Button buttonDrive;
+    private Button buttonNavMining, buttonNavWallet, buttonNavSettings;
+    private View pageMining, pageWallet, pageSettings;
+    private TextView textViewScreenTitle;
     private CheckBox checkBoxBenchmark;
     private Spinner spinnerAlgorithm, spinnerPool, spinnerTheme, spinnerLanguage;
     private TextView textViewLog, textViewStatus, textViewCpuModel, textViewCpuCores, textViewCpuTemperature;
@@ -93,6 +97,18 @@ public class MainActivity extends AppCompatActivity {
         setTheme(themeResource(theme));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        pageMining = findViewById(R.id.pageMining);
+        pageWallet = findViewById(R.id.pageWallet);
+        pageSettings = findViewById(R.id.pageSettings);
+        textViewScreenTitle = findViewById(R.id.textViewScreenTitle);
+        buttonNavMining = findViewById(R.id.buttonNavMining);
+        buttonNavWallet = findViewById(R.id.buttonNavWallet);
+        buttonNavSettings = findViewById(R.id.buttonNavSettings);
+        buttonNavMining.setOnClickListener(view -> showPage(0));
+        buttonNavWallet.setOnClickListener(view -> showPage(1));
+        buttonNavSettings.setOnClickListener(view -> showPage(2));
+        showPage(PreferenceManager.getDefaultSharedPreferences(this).getInt("active_page", 0));
 
         editTextServer = findViewById(R.id.editTextServer);
         editTextUser = findViewById(R.id.editTextUser);
@@ -138,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
             @Override public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) editTextServer.setText(DEFAULT_POOL);
                 else if (position == 1) editTextServer.setText(CPU_POOL);
+                else if (position == 2) editTextServer.setText(RPLANT_EU_POOL);
                 storeSetting();
             }
             @Override public void onNothingSelected(android.widget.AdapterView<?> parent) { }
@@ -197,6 +214,34 @@ public class MainActivity extends AppCompatActivity {
         showDeviceInfo();
     }
 
+    private void showPage(int page) {
+        int selectedPage = Math.max(0, Math.min(page, 2));
+        if (selectedPage != 1 && wifRevealed) hideWif();
+        pageMining.setVisibility(selectedPage == 0 ? View.VISIBLE : View.GONE);
+        pageWallet.setVisibility(selectedPage == 1 ? View.VISIBLE : View.GONE);
+        pageSettings.setVisibility(selectedPage == 2 ? View.VISIBLE : View.GONE);
+        textViewScreenTitle.setText(selectedPage == 0 ? R.string.page_mining_title
+                : (selectedPage == 1 ? R.string.page_wallet_title : R.string.page_settings_title));
+        updateNavigationButton(buttonNavMining, selectedPage == 0);
+        updateNavigationButton(buttonNavWallet, selectedPage == 1);
+        updateNavigationButton(buttonNavSettings, selectedPage == 2);
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putInt("active_page", selectedPage).apply();
+    }
+
+    private void updateNavigationButton(Button button, boolean selected) {
+        button.setAlpha(selected ? 1.0f : 0.68f);
+        button.setTypeface(null, selected ? android.graphics.Typeface.BOLD : android.graphics.Typeface.NORMAL);
+        button.setTextColor(ContextCompat.getColor(this,
+                selected ? R.color.colorPrimary : R.color.navigationInactive));
+    }
+
+    private void hideWif() {
+        wifRevealed = false;
+        textViewGeneratedWif.setText(getString(R.string.wif_hidden));
+        buttonRevealWif.setText(R.string.reveal_wif);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+    }
+
     @Override protected void onStart() {
         super.onStart();
         IntentFilter filter = new IntentFilter();
@@ -221,10 +266,7 @@ public class MainActivity extends AppCompatActivity {
     @Override protected void onStop() {
         mainHandler.removeCallbacks(temperatureRefresh);
         if (wifRevealed) {
-            wifRevealed = false;
-            textViewGeneratedWif.setText(getString(R.string.wif_hidden));
-            buttonRevealWif.setText(R.string.reveal_wif);
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+            hideWif();
         }
         if (receiverRegistered) {
             unregisterReceiver(miningReceiver);
@@ -490,7 +532,9 @@ public class MainActivity extends AppCompatActivity {
         editTextNThreads.setText(pref.getString("n_threads", ""));
         spinnerAlgorithm.setSelection(pref.getInt("algorithm", 1));
         String server = editTextServer.getText().toString().toLowerCase(Locale.ROOT);
-        int pool = server.contains("yenten-pool.info") ? 0 : (server.contains("cpu-pool.com") ? 1 : 2);
+        int pool = server.contains("yenten-pool.info") ? 0
+                : (server.contains("cpu-pool.com") ? 1
+                : (server.contains("eu.rplant.xyz") ? 2 : 3));
         spinnerPool.setSelection(pool);
     }
 

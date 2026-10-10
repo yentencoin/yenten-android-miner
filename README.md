@@ -9,7 +9,10 @@ cpuminer engine. Current app version: **1.3.0** (`versionCode` **4**).
 
 - Mines with `yespowerr16` (default) or `yescryptr16`.
 - Includes Yenten Pool (`yenten-pool.info:63368`), CPU Pool
-  (`cpu-pool.com:63368`), and a custom pool option.
+  (`cpu-pool.com:63368`), Rplant EU (`eu.rplant.xyz:3382`), and a custom
+  pool option.
+- Organizes the interface into Mining, Wallet, and Settings pages with a
+  persistent bottom navigation bar.
 - Runs mining in a foreground service with a persistent status notification,
   stop action, and CPU wake lock.
 - Shows processor model, total cores, available efficiency/performance core
