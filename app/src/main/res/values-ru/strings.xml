@@ -45,6 +45,7 @@
     <string name="pool_address">Адрес пула</string>
     <string name="pool_content_description">Пул для майнинга</string>
     <string name="wallet_hint">Адрес кошелька или логин пула</string>
+    <string name="wallet_empty_hint">Укажите адрес кошелька или логин пула. Новый адрес можно создать на странице Кошелёк в приложении.</string>
     <string name="password_hint">Пароль (обычно x)</string>
     <string name="miner_settings">НАСТРОЙКИ МАЙНЕРА</string>
     <string name="threads_hint">Потоки CPU (пусто — автоматически)</string>

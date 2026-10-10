@@ -45,6 +45,7 @@
     <string name="pool_address">矿池地址</string>
     <string name="pool_content_description">挖矿矿池</string>
     <string name="wallet_hint">钱包地址或矿池登录名</string>
+    <string name="wallet_empty_hint">请输入钱包地址或矿池登录名。您可以在应用的“钱包”页面创建新地址。</string>
     <string name="password_hint">密码（通常为 x）</string>
     <string name="miner_settings">矿机设置</string>
     <string name="threads_hint">CPU 线程数（留空为自动）</string>

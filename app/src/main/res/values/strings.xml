@@ -45,6 +45,7 @@
     <string name="pool_address">Pool address</string>
     <string name="pool_content_description">Mining pool</string>
     <string name="wallet_hint">Wallet address or pool login</string>
+    <string name="wallet_empty_hint">Enter a wallet address or pool login. You can create a new address on the Wallet page in the app.</string>
     <string name="password_hint">Password (usually x)</string>
     <string name="miner_settings">MINER SETTINGS</string>
     <string name="threads_hint">CPU threads (blank = auto)</string>

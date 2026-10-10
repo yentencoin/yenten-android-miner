@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -31,6 +33,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.core.os.LocaleListCompat;
 import androidx.core.widget.NestedScrollView;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Locale;
 import java.io.OutputStream;
@@ -61,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private EditText editTextServer, editTextUser, editTextPassword, editTextNThreads;
+    private TextInputLayout walletInputLayout;
     private Button buttonDrive;
     private Button buttonNavMining, buttonNavWallet, buttonNavSettings;
     private View pageMining, pageWallet, pageSettings;
@@ -112,6 +116,15 @@ public class MainActivity extends AppCompatActivity {
 
         editTextServer = findViewById(R.id.editTextServer);
         editTextUser = findViewById(R.id.editTextUser);
+        walletInputLayout = findViewById(R.id.walletInputLayout);
+        editTextUser.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence text, int start, int count, int after) { }
+            @Override public void onTextChanged(CharSequence text, int start, int before, int count) {
+                updateWalletInputHint(text);
+            }
+            @Override public void afterTextChanged(Editable text) { }
+        });
+        updateWalletInputHint(editTextUser.getText());
         editTextPassword = findViewById(R.id.editTextPassword);
         editTextNThreads = findViewById(R.id.editTextNThreads);
         buttonDrive = findViewById(R.id.buttonDrive);
@@ -226,6 +239,17 @@ public class MainActivity extends AppCompatActivity {
         updateNavigationButton(buttonNavWallet, selectedPage == 1);
         updateNavigationButton(buttonNavSettings, selectedPage == 2);
         PreferenceManager.getDefaultSharedPreferences(this).edit().putInt("active_page", selectedPage).apply();
+    }
+
+    private void updateWalletInputHint(CharSequence value) {
+        boolean isEmpty = value == null || value.toString().trim().isEmpty();
+        if (isEmpty) {
+            walletInputLayout.setHelperTextEnabled(true);
+            walletInputLayout.setHelperText(getString(R.string.wallet_empty_hint));
+        } else {
+            walletInputLayout.setHelperText(null);
+            walletInputLayout.setHelperTextEnabled(false);
+        }
     }
 
     private void updateNavigationButton(Button button, boolean selected) {
