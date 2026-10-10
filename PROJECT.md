@@ -39,8 +39,9 @@ temperature is unavailable.
 The algorithm selector offers `yescryptr16` and `yespowerr16`; the latter is
 selected by default. Pool presets are Yenten Pool at
 `stratum+tcp://yenten-pool.info:63368` and CPU Pool at
-`stratum+tcp://cpu-pool.com:63368`, plus Rplant EU at
-`stratum+tcp://eu.rplant.xyz:3382`. A custom endpoint can also be entered.
+`stratum+tcp://cpu-pool.com:63368`, plus Rplant Pool (`pool.rplant.xyz`)
+through its EU endpoint at `stratum+tcp://eu.rplant.xyz:3382`. A custom
+endpoint can also be entered.
 
 The UI uses Material Components with dark, light, and Matrix appearance modes.
 The app language can be set to English, Russian, or Simplified Chinese. The

@@ -81,7 +81,7 @@
     <string-array name="pools">
         <item>Yenten Pool — yenten-pool.info:63368</item>
         <item>CPU Pool — cpu-pool.com:63368</item>
-        <item>Rplant EU — eu.rplant.xyz:3382</item>
+        <item>Rplant Pool — pool.rplant.xyz · EU: eu.rplant.xyz:3382</item>
         <item>Custom pool</item>
     </string-array>
     <string-array name="themes">
