@@ -5,4 +5,5 @@
     <color name="colorAccent">#16A085</color>
     <color name="status_running">#36D6B0</color>
     <color name="status_idle">#89949F</color>
+    <color name="navigationInactive">#89949F</color>
 </resources>

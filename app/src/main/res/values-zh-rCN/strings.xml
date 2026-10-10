@@ -2,6 +2,12 @@
     <string name="app_name">Yenten 挖矿器</string>
     <string name="screen_eyebrow">YENTEN 挖矿器</string>
     <string name="screen_title">挖矿面板</string>
+    <string name="page_mining_title">挖矿</string>
+    <string name="page_wallet_title">钱包</string>
+    <string name="page_settings_title">设置</string>
+    <string name="navigation_mining">挖矿</string>
+    <string name="navigation_wallet">钱包</string>
+    <string name="navigation_settings">设置</string>
     <string name="status_ready">准备挖矿</string>
     <string name="status_mining">正在挖矿</string>
     <string name="start_mining">开始挖矿</string>
@@ -39,6 +45,7 @@
     <string name="pool_address">矿池地址</string>
     <string name="pool_content_description">挖矿矿池</string>
     <string name="wallet_hint">钱包地址或矿池登录名</string>
+    <string name="wallet_empty_hint">请输入钱包地址或矿池登录名。您可以在应用的“钱包”页面创建新地址。</string>
     <string name="password_hint">密码（通常为 x）</string>
     <string name="miner_settings">矿机设置</string>
     <string name="threads_hint">CPU 线程数（留空为自动）</string>
@@ -71,6 +78,7 @@
     <string-array name="pools">
         <item>Yenten Pool — yenten-pool.info:63368</item>
         <item>CPU Pool — cpu-pool.com:63368</item>
+        <item>Rplant Pool — pool.rplant.xyz · EU: eu.rplant.xyz:3382</item>
         <item>自定义矿池</item>
     </string-array>
     <string-array name="themes">

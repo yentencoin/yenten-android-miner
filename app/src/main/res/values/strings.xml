@@ -2,6 +2,12 @@
     <string name="app_name">Yenten Miner</string>
     <string name="screen_eyebrow">YENTEN MINER</string>
     <string name="screen_title">Mining dashboard</string>
+    <string name="page_mining_title">Mining</string>
+    <string name="page_wallet_title">Wallet</string>
+    <string name="page_settings_title">Settings</string>
+    <string name="navigation_mining">Mining</string>
+    <string name="navigation_wallet">Wallet</string>
+    <string name="navigation_settings">Settings</string>
     <string name="status_ready">Ready to mine</string>
     <string name="status_mining">Mining is running</string>
     <string name="start_mining">Start mining</string>
@@ -39,6 +45,7 @@
     <string name="pool_address">Pool address</string>
     <string name="pool_content_description">Mining pool</string>
     <string name="wallet_hint">Wallet address or pool login</string>
+    <string name="wallet_empty_hint">Enter a wallet address or pool login. You can create a new address on the Wallet page in the app.</string>
     <string name="password_hint">Password (usually x)</string>
     <string name="miner_settings">MINER SETTINGS</string>
     <string name="threads_hint">CPU threads (blank = auto)</string>
@@ -75,6 +82,7 @@
     <string-array name="pools">
         <item>Yenten Pool — yenten-pool.info:63368</item>
         <item>CPU Pool — cpu-pool.com:63368</item>
+        <item>Rplant Pool — pool.rplant.xyz · EU: eu.rplant.xyz:3382</item>
         <item>Custom pool</item>
     </string-array>
     <string-array name="themes">

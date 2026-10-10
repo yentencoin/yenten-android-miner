@@ -1,7 +1,7 @@
 # Yenten Android Miner
 
 An Android CPU miner for Yenten, built around a Java UI and a native C/C++
-cpuminer engine. Current app version: **1.3.0** (`versionCode` **4**).
+cpuminer engine. Current app version: **1.4.0** (`versionCode` **5**).
 
 ![Yenten Miner app screenshot](img/yenten-miner-current.jpg)
 
@@ -9,7 +9,10 @@ cpuminer engine. Current app version: **1.3.0** (`versionCode` **4**).
 
 - Mines with `yespowerr16` (default) or `yescryptr16`.
 - Includes Yenten Pool (`yenten-pool.info:63368`), CPU Pool
-  (`cpu-pool.com:63368`), and a custom pool option.
+  (`cpu-pool.com:63368`), Rplant Pool (`pool.rplant.xyz`, EU endpoint
+  `eu.rplant.xyz:3382`), and a custom pool option.
+- Organizes the interface into Mining, Wallet, and Settings pages with a
+  persistent bottom navigation bar.
 - Runs mining in a foreground service with a persistent status notification,
   stop action, and CPU wake lock.
 - Shows processor model, total cores, available efficiency/performance core
@@ -18,9 +21,11 @@ cpuminer engine. Current app version: **1.3.0** (`versionCode` **4**).
   Chinese UI; and a scrollable miner log.
 - Includes a benchmark mode and automatic thread selection when the thread
   count is left blank.
-- **Test functionality:** creates and stores a Yenten address and encrypted WIF,
-  exports a backup, opens the Yenten web wallet, and checks the public address
-  balance through the Yenten API.
+- Creates and stores a Yenten address and encrypted WIF, exports a backup,
+  opens the Yenten web wallet, and checks the public address balance through
+  the Yenten API.
+- Shows wallet-address guidance in English, Russian, or Chinese when the payout
+  address field is empty.
 
 Temperature and core-cluster information depend on files exposed by the device's
 Android kernel. If those readings are restricted or absent, the app reports the

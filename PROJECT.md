@@ -7,7 +7,7 @@ mining engine. The app configures a pool connection, wallet or pool login,
 password, CPU thread count, and mining algorithm. It also provides a local
 benchmark mode and displays miner output in the app.
 
-The current application version is **1.3.0** (`versionCode` **4**). The Android
+The current application version is **1.4.0** (`versionCode` **5**). The Android
 application supports Android 5.0 (API 21) and later, targets API 34, and builds
 native libraries for `arm64-v8a`, `armeabi-v7a`, `x86`, and `x86_64`.
 
@@ -39,14 +39,16 @@ temperature is unavailable.
 The algorithm selector offers `yescryptr16` and `yespowerr16`; the latter is
 selected by default. Pool presets are Yenten Pool at
 `stratum+tcp://yenten-pool.info:63368` and CPU Pool at
-`stratum+tcp://cpu-pool.com:63368`. A custom endpoint can also be entered.
+`stratum+tcp://cpu-pool.com:63368`, plus Rplant Pool (`pool.rplant.xyz`)
+through its EU endpoint at `stratum+tcp://eu.rplant.xyz:3382`. A custom
+endpoint can also be entered.
 
 The UI uses Material Components with dark, light, and Matrix appearance modes.
 The app language can be set to English, Russian, or Simplified Chinese. The
 language selection uses AndroidX AppCompat application locales and is also
 listed in Android's per-app language settings on supported Android versions.
 
-The experimental wallet card generates a compressed secp256k1 key locally and
+The wallet page generates a compressed secp256k1 key locally and
 encodes a legacy Yenten mainnet address and WIF private key. Yenten Core's mainnet
 Base58 prefixes are used (address `78`, private key `123`). The miner address
 field is populated with the generated address. The address and WIF are stored in

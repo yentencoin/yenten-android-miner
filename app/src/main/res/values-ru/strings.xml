@@ -2,6 +2,12 @@
     <string name="app_name">Майнер Yenten</string>
     <string name="screen_eyebrow">МАЙНЕР YENTEN</string>
     <string name="screen_title">Панель майнинга</string>
+    <string name="page_mining_title">Майнинг</string>
+    <string name="page_wallet_title">Кошелёк</string>
+    <string name="page_settings_title">Настройки</string>
+    <string name="navigation_mining">Майнинг</string>
+    <string name="navigation_wallet">Кошелёк</string>
+    <string name="navigation_settings">Настройки</string>
     <string name="status_ready">Готов к майнингу</string>
     <string name="status_mining">Майнинг запущен</string>
     <string name="start_mining">Запустить майнинг</string>
@@ -39,6 +45,7 @@
     <string name="pool_address">Адрес пула</string>
     <string name="pool_content_description">Пул для майнинга</string>
     <string name="wallet_hint">Адрес кошелька или логин пула</string>
+    <string name="wallet_empty_hint">Укажите адрес кошелька или логин пула. Новый адрес можно создать на странице Кошелёк в приложении.</string>
     <string name="password_hint">Пароль (обычно x)</string>
     <string name="miner_settings">НАСТРОЙКИ МАЙНЕРА</string>
     <string name="threads_hint">Потоки CPU (пусто — автоматически)</string>
@@ -71,6 +78,7 @@
     <string-array name="pools">
         <item>Yenten Pool — yenten-pool.info:63368</item>
         <item>CPU Pool — cpu-pool.com:63368</item>
+        <item>Rplant Pool — pool.rplant.xyz · EU: eu.rplant.xyz:3382</item>
         <item>Свой пул</item>
     </string-array>
     <string-array name="themes">
