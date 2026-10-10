@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.pm.PackageManager;
@@ -14,6 +15,7 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -21,6 +23,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.LinearLayout;
+import android.app.AlertDialog;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -29,6 +33,9 @@ import androidx.core.os.LocaleListCompat;
 import androidx.core.widget.NestedScrollView;
 
 import java.util.Locale;
+import java.io.OutputStream;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -36,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "BitZenyMiner";
     private static final int LOG_LINES = 1000;
     private static final int REQUEST_NOTIFICATIONS = 931;
+    private static final int REQUEST_SAVE_WALLET = 932;
     private static final int THEME_DARK = 0;
     private static final int THEME_LIGHT = 1;
     private static final int THEME_MATRIX = 2;
@@ -56,6 +64,14 @@ public class MainActivity extends AppCompatActivity {
     private CheckBox checkBoxBenchmark;
     private Spinner spinnerAlgorithm, spinnerPool, spinnerTheme, spinnerLanguage;
     private TextView textViewLog, textViewStatus, textViewCpuModel, textViewCpuCores, textViewCpuTemperature;
+    private Button buttonGenerateWallet, buttonRevealWif, buttonSaveWif;
+    private Button buttonCheckBalance, buttonOpenWebWallet;
+    private TextView textViewGeneratedAddress, textViewGeneratedWif, textViewWalletBalance;
+    private LinearLayout walletKeyOutput;
+    private YentenWalletKey generatedWallet;
+    private YentenWalletStorage walletStorage;
+    private final ExecutorService balanceExecutor = Executors.newSingleThreadExecutor();
+    private boolean wifRevealed;
     private View statusDot;
     private NestedScrollView logScrollView;
     private boolean running;
@@ -95,6 +111,16 @@ public class MainActivity extends AppCompatActivity {
         textViewCpuModel = findViewById(R.id.textViewCpuModel);
         textViewCpuCores = findViewById(R.id.textViewCpuCores);
         textViewCpuTemperature = findViewById(R.id.textViewCpuTemperature);
+        buttonGenerateWallet = findViewById(R.id.buttonGenerateWallet);
+        buttonRevealWif = findViewById(R.id.buttonRevealWif);
+        buttonSaveWif = findViewById(R.id.buttonSaveWif);
+        buttonCheckBalance = findViewById(R.id.buttonCheckBalance);
+        buttonOpenWebWallet = findViewById(R.id.buttonOpenWebWallet);
+        textViewGeneratedAddress = findViewById(R.id.textViewGeneratedAddress);
+        textViewGeneratedWif = findViewById(R.id.textViewGeneratedWif);
+        textViewWalletBalance = findViewById(R.id.textViewWalletBalance);
+        walletKeyOutput = findViewById(R.id.walletKeyOutput);
+        walletStorage = new YentenWalletStorage(this);
 
         setupSpinner(spinnerAlgorithm, R.array.algorithms);
         setupSpinner(spinnerPool, R.array.pools);
@@ -139,6 +165,33 @@ public class MainActivity extends AppCompatActivity {
             @Override public void onNothingSelected(android.widget.AdapterView<?> parent) { }
         });
 
+        buttonGenerateWallet.setOnClickListener(view -> {
+            if (generatedWallet == null) {
+                generateWallet();
+            } else {
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.replace_wallet_title)
+                        .setMessage(R.string.replace_wallet_warning)
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .setPositiveButton(R.string.generate_wallet, (dialog, which) -> generateWallet())
+                        .show();
+            }
+        });
+        buttonRevealWif.setOnClickListener(view -> {
+            if (generatedWallet == null) return;
+            wifRevealed = !wifRevealed;
+            textViewGeneratedWif.setText(wifRevealed ? generatedWallet.wif : getString(R.string.wif_hidden));
+            textViewGeneratedWif.setVisibility(View.VISIBLE);
+            buttonRevealWif.setText(wifRevealed ? R.string.hide_wif : R.string.reveal_wif);
+            if (wifRevealed) getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+            else getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        });
+        buttonSaveWif.setOnClickListener(view -> confirmSaveWallet());
+        buttonCheckBalance.setOnClickListener(view -> checkWalletBalance());
+        buttonOpenWebWallet.setOnClickListener(view -> confirmOpenWebWallet());
+
+        restoreWallet();
+
         buttonDrive.setOnClickListener(view -> toggleMining());
         changeState(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("mining_running", false));
         showDeviceInfo();
@@ -167,6 +220,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override protected void onStop() {
         mainHandler.removeCallbacks(temperatureRefresh);
+        if (wifRevealed) {
+            wifRevealed = false;
+            textViewGeneratedWif.setText(getString(R.string.wif_hidden));
+            buttonRevealWif.setText(R.string.reveal_wif);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        }
         if (receiverRegistered) {
             unregisterReceiver(miningReceiver);
             receiverRegistered = false;
@@ -179,6 +238,122 @@ public class MainActivity extends AppCompatActivity {
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+    }
+
+    private void generateWallet() {
+        try {
+            YentenWalletKey candidate = YentenWalletKey.generate(new java.security.SecureRandom());
+            walletStorage.save(candidate);
+            showWallet(candidate);
+            Toast.makeText(this, R.string.wallet_generated, Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Log.e(TAG, "Unable to generate Yenten wallet", e);
+            Toast.makeText(this, R.string.wallet_generation_failed, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void restoreWallet() {
+        try {
+            YentenWalletKey wallet = walletStorage.load();
+            if (wallet != null) showWallet(wallet);
+        } catch (Exception e) {
+            Log.e(TAG, "Unable to unlock saved Yenten wallet", e);
+            Toast.makeText(this, R.string.wallet_storage_unavailable, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void showWallet(YentenWalletKey wallet) {
+        generatedWallet = wallet;
+        wifRevealed = false;
+        textViewGeneratedAddress.setText(wallet.address);
+        textViewGeneratedWif.setText(getString(R.string.wif_hidden));
+        textViewGeneratedWif.setVisibility(View.VISIBLE);
+        buttonRevealWif.setText(R.string.reveal_wif);
+        walletKeyOutput.setVisibility(View.VISIBLE);
+        editTextUser.setText(wallet.address);
+        storeSetting();
+    }
+
+    private void confirmSaveWallet() {
+        if (generatedWallet == null) return;
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.save_wif)
+                .setMessage(R.string.save_wif_warning)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(R.string.continue_saving, (dialog, which) -> {
+                    Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("text/plain");
+                    intent.putExtra(Intent.EXTRA_TITLE, "Yenten-wallet.txt");
+                    startActivityForResult(intent, REQUEST_SAVE_WALLET);
+                })
+                .show();
+    }
+
+    private void checkWalletBalance() {
+        if (generatedWallet == null) return;
+        String address = generatedWallet.address;
+        buttonCheckBalance.setEnabled(false);
+        textViewWalletBalance.setText(R.string.balance_loading);
+        balanceExecutor.execute(() -> {
+            try {
+                YentenBalanceClient.Balance balance = YentenBalanceClient.fetch(address);
+                runOnUiThread(() -> {
+                    if (isFinishing() || isDestroyed()) return;
+                    textViewWalletBalance.setText(getString(R.string.balance_result,
+                            balance.balance, balance.received));
+                    buttonCheckBalance.setEnabled(true);
+                });
+            } catch (Exception e) {
+                Log.w(TAG, "Unable to fetch Yenten address balance", e);
+                runOnUiThread(() -> {
+                    if (isFinishing() || isDestroyed()) return;
+                    textViewWalletBalance.setText(R.string.balance_unavailable);
+                    buttonCheckBalance.setEnabled(true);
+                });
+            }
+        });
+    }
+
+    private void confirmOpenWebWallet() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.web_wallet_warning_title)
+                .setMessage(R.string.web_wallet_warning)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(R.string.open_web_wallet, (dialog, which) -> {
+                    Intent intent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://wallet.yentencoin.info/"));
+                    startActivity(intent);
+                })
+                .show();
+    }
+
+    @Override protected void onDestroy() {
+        balanceExecutor.shutdownNow();
+        super.onDestroy();
+    }
+
+    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode != REQUEST_SAVE_WALLET || resultCode != RESULT_OK || data == null) return;
+        Uri uri = data.getData();
+        if (generatedWallet == null) {
+            try { generatedWallet = walletStorage.load(); }
+            catch (Exception e) { Log.e(TAG, "Unable to load wallet for export", e); }
+        }
+        if (uri == null || generatedWallet == null) {
+            Toast.makeText(this, R.string.wallet_storage_unavailable, Toast.LENGTH_LONG).show();
+            return;
+        }
+        String contents = getString(R.string.wallet_backup_contents, generatedWallet.address, generatedWallet.wif);
+        try (OutputStream output = getContentResolver().openOutputStream(uri)) {
+            if (output == null) throw new java.io.IOException("Unable to open selected file");
+            output.write(contents.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+            Toast.makeText(this, R.string.wallet_saved, Toast.LENGTH_LONG).show();
+        } catch (java.io.IOException e) {
+            Log.e(TAG, "Unable to save wallet backup", e);
+            Toast.makeText(this, R.string.wallet_save_failed, Toast.LENGTH_LONG).show();
+        }
     }
 
     private int themeResource(int theme) {

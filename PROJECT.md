@@ -7,7 +7,7 @@ mining engine. The app configures a pool connection, wallet or pool login,
 password, CPU thread count, and mining algorithm. It also provides a local
 benchmark mode and displays miner output in the app.
 
-The current application version is **1.2.0** (`versionCode` **3**). The Android
+The current application version is **1.3.0** (`versionCode` **4**). The Android
 application supports Android 5.0 (API 21) and later, targets API 34, and builds
 native libraries for `arm64-v8a`, `armeabi-v7a`, `x86`, and `x86_64`.
 
@@ -46,6 +46,27 @@ The app language can be set to English, Russian, or Simplified Chinese. The
 language selection uses AndroidX AppCompat application locales and is also
 listed in Android's per-app language settings on supported Android versions.
 
+The experimental wallet card generates a compressed secp256k1 key locally and
+encodes a legacy Yenten mainnet address and WIF private key. Yenten Core's mainnet
+Base58 prefixes are used (address `78`, private key `123`). The miner address
+field is populated with the generated address. The address and WIF are stored in
+app-private preferences encrypted with AES-GCM; the random data-encryption key is
+wrapped by an RSA key held in Android Keystore. The encrypted preference file is
+excluded from cloud and device-transfer backups because the device-bound Keystore
+key cannot be restored on another installation. The WIF is hidden until
+requested and is exported only when the user chooses a destination through
+Android's document picker. The exported text file is unencrypted; anyone with it
+can spend funds controlled by the key. The file includes the Core console command
+for `importprivkey` and a note to wait for the wallet rescan. Users need an
+exported backup before uninstalling the app or moving to another device.
+
+The wallet card also explains how to reveal and paste WIF into the Yenten web
+wallet. Before opening it, the app warns that entering WIF grants the website
+spending access to the key. Address balance checks call
+`https://api.yentencoin.info/balance/{address}` on a background thread. The API
+receives only the public address, and its integer atomic-unit amounts are shown
+as YTN with eight decimal places; the WIF is never sent to this endpoint.
+
 The mining service declares Android's `specialUse` foreground-service type for
 the user-started CPU-mining task. Android 13 and later can require notification
 permission before the ongoing notification appears in the notification drawer.
@@ -71,6 +92,7 @@ permission before the ongoing notification appears in the notification drawer.
 - AndroidX AppCompat 1.7.0
 - Material Components 1.12.0
 - AndroidX ConstraintLayout 2.1.4
+- Spongy Castle 1.58.0.0 for secp256k1 and RIPEMD-160 key/address encoding
 
 ### Native library
 
